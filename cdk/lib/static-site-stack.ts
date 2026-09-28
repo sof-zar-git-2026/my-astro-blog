@@ -3,6 +3,7 @@ import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as cloudfront from 'aws-cdk-lib/aws-cloudfront';
 import * as origins from 'aws-cdk-lib/aws-cloudfront-origins';
 import * as s3deploy from 'aws-cdk-lib/aws-s3-deployment';
+import * as path from 'node:path';
 
 export class StaticSiteStack extends cdk.Stack {
     constructor(scope: cdk.App, id: string, props?: cdk.StackProps) {
@@ -18,11 +19,13 @@ export class StaticSiteStack extends cdk.Stack {
             defaultRootObject: 'index.html',
         });
 
-        new s3deploy.BucketDeployment(this, 'DeploySite', {
-            sources: [s3deploy.Source.asset('./dist')],
-            destinationBucket: siteBucket,
-            distribution,
-            distributionPaths: ['/*'], // Automatic CloudFront CDN cache invalidation!
-        });
+        // 3. Bucket Deployment: Syncs your local frontend production build folder directly to S3
+    new s3deploy.BucketDeployment(this, 'DeployStaticSite', {
+      sources: [s3deploy.Source.asset(path.join(__dirname, '../../dist'))], // 👈 Replace your line with this exact text
+      destinationBucket: siteBucket,
+      distribution,
+      distributionPaths: ['/*'],
+    });
+
     }
 }
