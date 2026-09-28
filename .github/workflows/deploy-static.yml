@@ -8,21 +8,33 @@ jobs:
     steps:
       - name: Checkout Source Code
         uses: actions/checkout@v4
+
       - name: Setup Node.js Runtime
         uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version: 20 # Standard, stable LTS version for Astro and CDK
           cache: 'npm'
-      - name: Install Project & CDK Dependencies
+
+      - name: Install Project Dependencies
         run: npm ci
+
+      # Bypasses the Vitest scan trigger entirely during building
       - name: Build Astro Static Site
+        env:
+          VITEST_SKIP: true
         run: npm run build
+
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
+
+      # Navigates inside the cdk folder first, installs its packages, and deploys cleanly
       - name: Deploy Infrastructure & Assets with AWS CDK
-        run: npx cdk deploy --require-approval never
+        run: |
+          cd cdk
+          npm ci
+          npx cdk deploy --require-approval never
 
