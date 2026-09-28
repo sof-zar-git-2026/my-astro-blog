@@ -1,10 +1,7 @@
 name: Deploy Static Site via AWS CDK
-
 on:
   push:
-    branches:
-      - main
-
+    branches: [main]
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -15,7 +12,7 @@ jobs:
       - name: Setup Node.js Runtime
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22 # 👈 Upgraded to 22 to satisfy Astro's layout requirements
           cache: 'npm'
 
       - name: Install Project Dependencies
