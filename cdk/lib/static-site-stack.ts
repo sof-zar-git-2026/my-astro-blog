@@ -14,18 +14,41 @@ export class StaticSiteStack extends cdk.Stack {
             autoDeleteObjects: true,
         });
 
+        const rewriteDirectoryRequests = new cloudfront.Function(this, 'RewriteDirectoryRequests', {
+            code: cloudfront.FunctionCode.fromInline(`function handler(event) {
+    var request = event.request;
+    var uri = request.uri;
+    var lastSegment = uri.substring(uri.lastIndexOf('/') + 1);
+
+    if (uri.charAt(uri.length - 1) === '/') {
+        request.uri = uri + 'index.html';
+    } else if (lastSegment.indexOf('.') === -1) {
+        request.uri = uri + '/index.html';
+    }
+
+    return request;
+}`),
+        });
+
         const distribution = new cloudfront.Distribution(this, 'SiteDistribution', {
-            defaultBehavior: { origin: origins.S3BucketOrigin.withOriginAccessControl(siteBucket) },
+            defaultBehavior: {
+                origin: origins.S3BucketOrigin.withOriginAccessControl(siteBucket),
+                functionAssociations: [
+                    {
+                        function: rewriteDirectoryRequests,
+                        eventType: cloudfront.FunctionEventType.VIEWER_REQUEST,
+                    },
+                ],
+            },
             defaultRootObject: 'index.html',
         });
 
         // 3. Bucket Deployment: Syncs your local frontend production build folder directly to S3
-    new s3deploy.BucketDeployment(this, 'DeployStaticSite', {
+        new s3deploy.BucketDeployment(this, 'DeployStaticSite', {
       sources: [s3deploy.Source.asset(path.join(__dirname, '../../dist'))], // 👈 Replace your line with this exact text
       destinationBucket: siteBucket,
       distribution,
       distributionPaths: ['/*'],
     });
-
     }
 }
