@@ -1,37 +1,37 @@
-name: Deploy Static Site via AWS CDK
-on:
-  push:
-    branches: [main]
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Source Code
-        uses: actions/checkout@v4
+# name: Deploy Static Site via AWS CDK
+# on:
+#   push:
+#     branches: [main]
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout Source Code
+#         uses: actions/checkout@v4
 
-      - name: Setup Node.js Runtime
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22 # 👈 Upgraded to 22 to satisfy Astro's layout requirements
-          cache: 'npm'
+#       - name: Setup Node.js Runtime
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: 22 # 👈 Upgraded to 22 to satisfy Astro's layout requirements
+#           cache: 'npm'
 
-      - name: Install Project Dependencies
-        run: npm ci
+#       - name: Install Project Dependencies
+#         run: npm ci
 
-      - name: Build Astro Static Site
-        env:
-          VITEST_SKIP: true
-        run: npm run build
+#       - name: Build Astro Static Site
+#         env:
+#           VITEST_SKIP: true
+#         run: npm run build
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+#       - name: Configure AWS Credentials
+#         uses: aws-actions/configure-aws-credentials@v4
+#         with:
+#           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#           aws-region: us-east-1
 
-      - name: Deploy Infrastructure & Assets with AWS CDK
-        run: |
-          cd cdk
-          npm ci
-          npx cdk deploy --require-approval never
+#       - name: Deploy Infrastructure & Assets with AWS CDK
+#         run: |
+#           cd cdk
+#           npm ci
+#           npx cdk deploy --require-approval never
