@@ -7,44 +7,369 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
 <!doctype html>
 <html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content="A personal website about music, favourite artists, albums and musical discoveries." />
+    <title>My Music Space</title>
+  </head>
 
-			<h1>🧑‍🚀 Hello World!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This template
-				serves as a lightweight, minimally-styled starting point for anyone looking to build a personal
-				website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to
-				<a href="https://docs.astro.build/">read the docs</a>
-				or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out
-				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
-				by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
-		</main>
-		<Footer />
-	</body>
+  <body>
+    <header class="navbar">
+      <a href="#home" class="logo">♫ My Music Space</a>
+
+      <nav>
+        <a href="#artists">Artists</a>
+        <a href="#genres">Genres</a>
+        <a href="#discoveries">Discoveries</a>
+        <a href="#about">About</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" id="home">
+        <p class="eyebrow">MUSIC • PASSION • DISCOVERY</p>
+
+        <h1>Life sounds better<br />with music.</h1>
+
+        <p class="intro">
+          Welcome to my personal music space.
+          Explore the artists I love, the genres I enjoy,
+          and the music I discover along the way.
+        </p>
+
+        <a href="#artists" class="button">Explore my music →</a>
+      </section>
+
+      <section class="section" id="artists">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">MY PLAYLIST</p>
+            <h2>Artists I enjoy</h2>
+          </div>
+          <span class="section-icon">♫</span>
+        </div>
+
+        <div class="artist-grid">
+          {artists.map((artist) => (
+            <article class="artist-card">
+              <div class="artist-art">
+                <span>{artist.symbol}</span>
+              </div>
+
+              <div class="artist-info">
+                <p class="genre-label">{artist.genre}</p>
+                <h3>{artist.name}</h3>
+                <p>{artist.description}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section class="section genres-section" id="genres">
+        <p class="eyebrow">EXPLORE THE SOUNDS</p>
+        <h2>My favourite genres</h2>
+
+        <div class="genre-list">
+          {genres.map((genre) => (
+            <span class="genre-tag">{genre}</span>
+          ))}
+        </div>
+      </section>
+
+      <section class="discoveries" id="discoveries">
+        <p class="eyebrow">ALWAYS SOMETHING NEW</p>
+        <h2>Music discoveries</h2>
+
+        <p>
+          Great music is always waiting to be discovered.
+          This is where I'll share interesting artists,
+          memorable albums and tracks worth listening to.
+        </p>
+
+        <p class="coming-soon">New discoveries coming soon ♫</p>
+      </section>
+
+      <section class="about section" id="about">
+        <p class="eyebrow">A LITTLE ABOUT ME</p>
+        <h2>Music is personal.</h2>
+
+        <p>
+          This website is my own corner of the internet
+          dedicated to music. I'll use it to collect my
+          favourite artists, share recommendations and
+          document my musical journey.
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      <p>♫ My Music Space</p>
+      <p>Made with a love of music.</p>
+    </footer>
+  </body>
 </html>
+
+<style>
+  :global(*) {
+    box-sizing: border-box;
+  }
+
+  :global(html) {
+    scroll-behavior: smooth;
+  }
+
+  :global(body) {
+    margin: 0;
+    background: #101019;
+    color: #f4f1fa;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.6;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 22px 8%;
+    border-bottom: 1px solid #292637;
+  }
+
+  .logo {
+    font-size: 21px;
+    font-weight: 700;
+    color: #c4a7ff;
+  }
+
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+
+  nav a {
+    color: #c5c1d2;
+    font-size: 14px;
+  }
+
+  nav a:hover {
+    color: #c4a7ff;
+  }
+
+  .hero {
+    padding: 110px 20px 120px;
+    text-align: center;
+    background:
+      radial-gradient(
+        ellipse at top,
+        #33204e 0%,
+        #171322 45%,
+        #101019 78%
+      );
+  }
+
+  .eyebrow {
+    color: #c4a7ff;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 3px;
+  }
+
+  h1 {
+    margin: 20px 0;
+    font-size: clamp(42px, 7vw, 76px);
+    line-height: 1.1;
+    letter-spacing: -2px;
+  }
+
+  .intro {
+    max-width: 560px;
+    margin: 0 auto 32px;
+    color: #c5c1d2;
+    font-size: 17px;
+  }
+
+  .button {
+    display: inline-block;
+    padding: 13px 24px;
+    border-radius: 8px;
+    background: #a981f5;
+    color: #171020;
+    font-weight: 700;
+  }
+
+  .button:hover {
+    background: #c4a7ff;
+  }
+
+  .section {
+    max-width: 1100px;
+    margin: auto;
+    padding: 75px 24px;
+  }
+
+  .section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+  }
+
+  h2 {
+    margin: 8px 0 20px;
+    font-size: clamp(28px, 4vw, 38px);
+    line-height: 1.2;
+  }
+
+  .section-icon {
+    color: #c4a7ff;
+    font-size: 42px;
+  }
+
+  .artist-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  .artist-card {
+    overflow: hidden;
+    border: 1px solid #302b40;
+    border-radius: 14px;
+    background: #191824;
+    transition: transform 0.2s ease;
+  }
+
+  .artist-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .artist-art {
+    display: grid;
+    min-height: 180px;
+    place-items: center;
+    background: linear-gradient(135deg, #39265a, #202b48);
+  }
+
+  .artist-card:nth-child(2) .artist-art {
+    background: linear-gradient(135deg, #573d6c, #242c46);
+  }
+
+  .artist-card:nth-child(3) .artist-art {
+    background: linear-gradient(135deg, #493a65, #30394c);
+  }
+
+  .artist-art span {
+    font-size: 65px;
+  }
+
+  .artist-info {
+    padding: 20px;
+  }
+
+  .genre-label {
+    color: #c4a7ff;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .artist-info h3 {
+    margin: 8px 0;
+    font-size: 23px;
+  }
+
+  .artist-info > p:last-child {
+    color: #bcb7cb;
+    font-size: 14px;
+  }
+
+  .genres-section {
+    padding-top: 45px;
+    padding-bottom: 80px;
+  }
+
+  .genre-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .genre-tag {
+    padding: 10px 18px;
+    border: 1px solid #49405f;
+    border-radius: 30px;
+    background: #1b1728;
+    color: #e2d6ff;
+  }
+
+  .discoveries {
+    padding: 75px 24px;
+    text-align: center;
+    background: #1b1728;
+  }
+
+  .discoveries > p:not(.eyebrow):not(.coming-soon) {
+    max-width: 620px;
+    margin: 0 auto;
+    color: #c5c1d2;
+  }
+
+  .coming-soon {
+    margin-top: 28px;
+    color: #c4a7ff;
+    font-weight: 700;
+  }
+
+  .about {
+    max-width: 750px;
+    text-align: center;
+  }
+
+  .about > p:last-child {
+    color: #c5c1d2;
+  }
+
+  footer {
+    padding: 25px;
+    border-top: 1px solid #292637;
+    text-align: center;
+    color: #aaa4bc;
+    font-size: 13px;
+  }
+
+  @media (max-width: 700px) {
+    .navbar {
+      flex-direction: column;
+      padding: 20px;
+    }
+
+    nav {
+      justify-content: center;
+      gap: 14px;
+    }
+
+    .hero {
+      padding: 80px 20px;
+    }
+
+    .artist-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .artist-art {
+      min-height: 150px;
+    }
+
+    .section {
+      padding: 55px 20px;
+    }
+  }
+</style>
